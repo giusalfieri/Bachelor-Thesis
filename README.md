@@ -59,7 +59,6 @@ $$x_t = \sqrt{\bar{\alpha}_t}x_0 + \sqrt{1-\bar{\alpha}_t}\epsilon \quad \text{w
 As $T \to \infty$, the data structure is completely destroyed, converging to pure isotropic Gaussian noise.
 </details>
 
-
 <details>
 <summary><b>◀️ The Reverse Process & Optimization Objective</b> (Click to expand)</summary>
 <br />
@@ -73,8 +72,20 @@ Training is performed by minimizing the variational upper bound on the negative 
 This results in the highly effective **simple loss function**:
 
 $$
-L_{\text{simple}}(\theta) := \mathbb{E}_{x_0, \epsilon, t} \left[ \| \epsilon - \epsilon_{\theta}(\sqrt{\bar{\alpha}_t}x_0 + \sqrt{1-\bar{\alpha}_t}\epsilon, t) \|^2 \right]
+L_{\text{simple}}(\theta) \coloneqq
+\mathbb{E}_{x_0,\epsilon,t}
+\left[
+\left\lVert
+\epsilon -
+\epsilon_\theta\!\left(
+\sqrt{\bar{\alpha}_t}\,x_0 +
+\sqrt{1-\bar{\alpha}_t}\,\epsilon,\,
+t
+\right)
+\right\rVert^{2}
+\right]
 $$
+
 
 This formulation elegantly reduces the complex generative task to a sequence of denoising score matching problems.
 </details>
