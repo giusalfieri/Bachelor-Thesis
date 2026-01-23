@@ -72,7 +72,9 @@ Training is performed by minimizing the variational upper bound on the negative 
 
 This results in the highly effective **simple loss function**:
 
-$$L_{\text{simple}}(\theta) := \mathbb{E}_{x_0, \epsilon, t} \left[ \| \epsilon - \epsilon_\theta(\sqrt{\bar{\alpha}_t}x_0 + \sqrt{1-\bar{\alpha}_t}\epsilon, t) \|^2 \right]$$
+$$
+L_{\text{simple}}(\theta) := \mathbb{E}_{x_0, \epsilon, t} \left[ \| \epsilon - \epsilon_{\theta}(\sqrt{\bar{\alpha}_t}x_0 + \sqrt{1-\bar{\alpha}_t}\epsilon, t) \|^2 \right]
+$$
 
 This formulation elegantly reduces the complex generative task to a sequence of denoising score matching problems.
 </details>
