@@ -99,6 +99,6 @@ The theoretical backbone of this thesis relies heavily on the seminal paper that
 
 ---
 <div align="center">
-    <p><i>Author: [Giuseppe Alfieri] | Supervisor: Prof. Alessandro Bria</i></p>
+    <p><i>Author: Giuseppe Alfieri | Supervisor: Prof. Alessandro Bria</i></p>
     <p>Academic Year 2022/2023</p>
 </div>
