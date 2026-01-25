@@ -28,7 +28,7 @@ This repository contains the theoretical framework and analytical work developed
 The thesis is a comprehensive theoretical investigation that moves beyond black-box descriptions of generative models, aiming instead to provide a rigorous mathematical analysis of **Denoising Diffusion Probabilistic Models (DDPMs)**. The discussion is grounded at the intersection of non-equilibrium thermodynamics, stochastic processes, and variational inference, which together constitute the theoretical foundation of modern diffusion-based generative modeling.
 
 
-### Scope and Theoretical Contributions
+## 🎯 Scope and Theoretical Contributions
 
 * **Conceptual Framing of Text-to-Image Generation**  
   A rigorous contextual discussion of contemporary text-to-image systems (e.g. Midjourney, DALL·E 2, Stable Diffusion), aimed at motivating the emergence and relevance of diffusion-based generative models, without delving into implementation-specific aspects (Chapter 2).
@@ -105,6 +105,11 @@ The associated dissertation is structured as follows:
 * **Chapter 2:** Technical review of SOTA Text-to-Image architectures.
 * **Chapter 3:** Mathematical formulation of DDPMs (Forward/Reverse processes).
 * **Appendices:** Deep dives into VAEs, ELBO derivation, and U-Net architecture.
+
+---
+
+## 📚 Foundational Reference
+
 
 > [!IMPORTANT]
 > **Foundational Reference**  
