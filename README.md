@@ -23,35 +23,38 @@
 
 ## 📖 Abstract
 
-This repository hosts the theoretical framework and research conducted for my Bachelor's thesis, titled **"Text-to-Image Generators: State of the Art"**.
+This repository contains the theoretical framework and analytical work developed for my Bachelor's thesis, entitled **“Text-to-Image Generators: State of the Art”**.
 
-This work is a comprehensive theoretical dissertation that moves beyond black-box applications to provide a rigorous mathematical deconstruction of **Denoising Diffusion Probabilistic Models (DDPMs)**. It explores the intersection of non-equilibrium thermodynamics, stochastic processes, and variational inference that forms the bedrock of modern generative AI.
+The thesis is a comprehensive theoretical investigation that moves beyond black-box descriptions of generative models, aiming instead to provide a rigorous mathematical analysis of **Denoising Diffusion Probabilistic Models (DDPMs)**. The discussion is grounded at the intersection of non-equilibrium thermodynamics, stochastic processes, and variational inference, which together constitute the theoretical foundation of modern diffusion-based generative modeling.
+
 
 ### Scope and Theoretical Contributions
 
-* **Conceptual Framing of Text-to-Image Generation:**  
-  A rigorous contextual analysis of modern text-to-image systems (e.g. Midjourney, DALL·E 2, Stable Diffusion) to motivate the emergence of diffusion-based generative models, without focusing on implementation-specific details (Chapter 2).
+* **Conceptual Framing of Text-to-Image Generation**  
+  A rigorous contextual discussion of contemporary text-to-image systems (e.g. Midjourney, DALL·E 2, Stable Diffusion), aimed at motivating the emergence and relevance of diffusion-based generative models, without delving into implementation-specific aspects (Chapter 2).
 
-* **Probabilistic Foundations of DDPMs:**  
-  A formal and self-contained treatment of Denoising Diffusion Probabilistic Models as coupled Markov chains, including the precise definition of forward and reverse stochastic processes, Gaussian transition kernels, and diffusion schedules (Chapter 3).
+* **Probabilistic Foundations of DDPMs**  
+  A formal and self-contained treatment of Denoising Diffusion Probabilistic Models as coupled Markov chains, including the explicit definition of forward and reverse stochastic processes, Gaussian transition kernels, and diffusion schedules (Chapter 3).
 
-* **Step-by-Step Variational Derivation:**  
-  A complete mathematical derivation of the DDPM training objective, starting from the intractable negative log-likelihood and proceeding through the Variational Lower Bound (ELBO), culminating in the simplified noise-prediction loss used in practice (Appendix B).
+* **Variational Derivation of the Training Objective**  
+  A complete mathematical derivation of the DDPM training objective, starting from the intractable negative log-likelihood and proceeding through the Variational Lower Bound (ELBO), ultimately leading to the simplified noise-prediction loss adopted in practice (Appendix B).
 
-* **Didactic Mathematical Exposition:**  
-  Extensive appendices providing all required background in probability theory, stochastic processes, variational inference, and U-Net architectures, making the thesis fully self-contained from a theoretical standpoint (Appendices A–C).
+* **Didactic and Self-Contained Mathematical Exposition**  
+  Extensive appendices providing all the necessary background in probability theory, stochastic processes, variational inference, and neural network architectures (notably U-Net), making the thesis fully self-contained from a theoretical perspective (Appendices A–C).
 
 
 > ⚠️ **Scope Note**  
-> This work is intentionally theoretical. No original architectures are proposed, and no models are trained or benchmarked.  
-> The primary goal is to provide a mathematically rigorous understanding of diffusion-based generative modeling, suitable for academic study and further research.
+> This work is intentionally theoretical in nature. No original architectures are proposed, and no models are trained or benchmarked.  
+> The primary objective is to provide a mathematically rigorous understanding of diffusion-based generative models, suitable for academic study and as a foundation for further research.
+
 
 
 ---
 
 ## 🧠 Theoretical Framework Deconstructed
 
-The core of the thesis explores how diffusion models learn the data distribution $p(x_0)$ by reversing a gradual, structured noising process.
+The core of the thesis investigates how diffusion models learn an implicit representation of the data distribution $p(x_0)$ by reversing a gradual and structured stochastic noising process.
+
 
 <details>
 <summary><b>▶️ The Forward Diffusion Process (Markovian Corruption)</b> (Click to expand)</summary>
