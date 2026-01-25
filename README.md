@@ -27,10 +27,25 @@ This repository hosts the theoretical framework and research conducted for my Ba
 
 This work is a comprehensive theoretical dissertation that moves beyond black-box applications to provide a rigorous mathematical deconstruction of **Denoising Diffusion Probabilistic Models (DDPMs)**. It explores the intersection of non-equilibrium thermodynamics, stochastic processes, and variational inference that forms the bedrock of modern generative AI.
 
-### Key Contributions
-* **State of the Art Review:** A technical analysis of major architectures including DALL-E 2, Stable Diffusion, and Imagen (Chapter 2).
-* **Mathematical Foundations:** A deep dive into DDPMs as coupled Markov chains, detailing the probabilistic transition kernels involved in data corruption and restoration (Chapter 3).
-* **Variational Derivation:** Step-by-step derivation of the Evidence Lower Bound (ELBO) to justify the simplified training objective used in practice (Appendix B).
+### Scope and Theoretical Contributions
+
+* **Conceptual Framing of Text-to-Image Generation:**  
+  A rigorous contextual analysis of modern text-to-image systems (e.g. Midjourney, DALL·E 2, Stable Diffusion) to motivate the emergence of diffusion-based generative models, without focusing on implementation-specific details (Chapter 2).
+
+* **Probabilistic Foundations of DDPMs:**  
+  A formal and self-contained treatment of Denoising Diffusion Probabilistic Models as coupled Markov chains, including the precise definition of forward and reverse stochastic processes, Gaussian transition kernels, and diffusion schedules (Chapter 3).
+
+* **Step-by-Step Variational Derivation:**  
+  A complete mathematical derivation of the DDPM training objective, starting from the intractable negative log-likelihood and proceeding through the Variational Lower Bound (ELBO), culminating in the simplified noise-prediction loss used in practice (Appendix B).
+
+* **Didactic Mathematical Exposition:**  
+  Extensive appendices providing all required background in probability theory, stochastic processes, variational inference, and U-Net architectures, making the thesis fully self-contained from a theoretical standpoint (Appendices A–C).
+
+
+> ⚠️ **Scope Note**  
+> This work is intentionally theoretical. No original architectures are proposed, and no models are trained or benchmarked.  
+> The primary goal is to provide a mathematically rigorous understanding of diffusion-based generative modeling, suitable for academic study and further research.
+
 
 ---
 
