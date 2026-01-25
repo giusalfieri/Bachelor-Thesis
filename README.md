@@ -110,9 +110,7 @@ The associated dissertation is structured as follows:
 
 ## 📚 Foundational Reference
 
-
 > [!IMPORTANT]
-> **Foundational Reference**  
 > The theoretical backbone of this thesis is grounded in the seminal work that introduced modern Denoising Diffusion Probabilistic Models:  
 >  
 > **Denoising Diffusion Probabilistic Models**  
