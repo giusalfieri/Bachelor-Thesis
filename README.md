@@ -106,14 +106,14 @@ The associated dissertation is structured as follows:
 * **Chapter 3:** Mathematical formulation of DDPMs (Forward/Reverse processes).
 * **Appendices:** Deep dives into VAEs, ELBO derivation, and U-Net architecture.
 
-## 📚 Foundational Reference
-
-The theoretical backbone of this thesis relies heavily on the seminal paper that established modern DDPMs:
-
-> **Denoising Diffusion Probabilistic Models**<br>
-> Jonathan Ho, Ajay Jain, Pieter Abbeel<br>
-> *NeurIPS 2020*<br>
-> [**➡️ Read on arXiv (2006.11239)**](https://arxiv.org/abs/2006.11239)
+> [!IMPORTANT]
+> **Foundational Reference**  
+> The theoretical backbone of this thesis is grounded in the seminal work that introduced modern Denoising Diffusion Probabilistic Models:  
+>  
+> **Denoising Diffusion Probabilistic Models**  
+> Jonathan Ho, Ajay Jain, Pieter Abbeel  
+> *NeurIPS 2020*  
+> [➡️ Read on arXiv (2006.11239)](https://arxiv.org/abs/2006.11239)
 
 ---
 <div align="center">
