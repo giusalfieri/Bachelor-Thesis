@@ -43,7 +43,7 @@ The thesis is a comprehensive theoretical investigation that moves beyond black-
   Extensive appendices providing all the necessary background in probability theory, stochastic processes, variational inference, and neural network architectures (notably U-Net), making the thesis fully self-contained from a theoretical perspective (Appendices A–C).
 
 
-> ⚠️ **Scope Note**  
+> [!NOTE]  
 > This work is intentionally theoretical in nature. No original architectures are proposed, and no models are trained or benchmarked.  
 > The primary objective is to provide a mathematically rigorous understanding of diffusion-based generative models, suitable for academic study and as a foundation for further research.
 
