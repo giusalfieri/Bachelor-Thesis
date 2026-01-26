@@ -29,21 +29,23 @@
 
 This repository contains the theoretical framework and analytical work developed for my Bachelor's thesis, entitled **“Text-to-Image Generators: State of the Art”**.
 
-The thesis is a comprehensive theoretical investigation that moves beyond black-box descriptions of generative models, aiming instead to provide a rigorous mathematical analysis of **Denoising Diffusion Probabilistic Models (DDPMs)**. The discussion is grounded at the intersection of non-equilibrium thermodynamics, stochastic processes, and variational inference, which together constitute the theoretical foundation of modern diffusion-based generative modeling.
+The thesis is a comprehensive theoretical investigation that moves beyond black-box descriptions of generative models, aiming instead to provide a rigorous mathematical analysis of **Denoising Diffusion Probabilistic Models (DDPMs)**. 
+
+The discussion is grounded at the intersection of non-equilibrium thermodynamics, stochastic processes, and variational inference, which together constitute the theoretical foundation of modern diffusion-based generative modeling.
 
 
 ## 🎯 Scope and Theoretical Contributions
 
-* **Conceptual Framing of Text-to-Image Generation**  
+- **Conceptual Framing of Text-to-Image Generation**  
   A rigorous contextual discussion of contemporary text-to-image systems (e.g. Midjourney, DALL·E 2, Stable Diffusion), aimed at motivating the emergence and relevance of diffusion-based generative models, without delving into implementation-specific aspects (Chapter 2).
 
-* **Probabilistic Foundations of DDPMs**  
+- **Probabilistic Foundations of DDPMs**  
   A formal and self-contained treatment of Denoising Diffusion Probabilistic Models as coupled Markov chains, including the explicit definition of forward and reverse stochastic processes, Gaussian transition kernels, and diffusion schedules (Chapter 3).
 
-* **Variational Derivation of the Training Objective**  
+- **Variational Derivation of the Training Objective**  
   A complete mathematical derivation of the DDPM training objective, starting from the intractable negative log-likelihood and proceeding through the Variational Lower Bound (ELBO), ultimately leading to the simplified noise-prediction loss adopted in practice (Appendix B).
 
-* **Didactic and Self-Contained Mathematical Exposition**  
+- **Didactic and Self-Contained Mathematical Exposition**  
   Extensive appendices providing all the necessary background in probability theory, stochastic processes, variational inference, and neural network architectures (notably U-Net), making the thesis fully self-contained from a theoretical perspective (Appendices A–C).
 
 
