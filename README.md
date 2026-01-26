@@ -9,7 +9,7 @@
   <h3>A Rigorous Theoretical Analysis & State of the Art Review</h3>
 
   <p>
-    <b>Bachelor's Thesis Project</b> | University of Cassino and Southern Lazio
+    <b>Bachelor's Thesis</b> | University of Cassino and Southern Lazio
     <br />
     Computer and Telecommunications Engineering
   </p>
