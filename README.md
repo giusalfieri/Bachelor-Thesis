@@ -15,8 +15,7 @@
   </p>
 
   <img src="https://img.shields.io/badge/Focus-Theoretical%20Analysis-0052cc.svg" alt="Theoretical Focus">
-  <img src="https://img.shields.io/badge/Math-Probability%20Theory-013243.svg" alt="Probability Theory">
-  <img src="https://img.shields.io/badge/Math-Information%20Theory-013243.svg" alt="Information Theory">
+  <img src="https://img.shields.io/badge/Math-Probability%20%26%20Information%20Theory-013243.svg" alt="Probability and Information Theory">
   <a href="https://arxiv.org/abs/2006.11239">
     <img src="https://img.shields.io/badge/Ref-arXiv%3A2006.11239-B31B1B.svg" alt="arXiv Reference">
   </a>
