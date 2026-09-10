@@ -39,9 +39,9 @@ The thesis is a theoretical study of **Denoising Diffusion Probabilistic Models*
 
 ## What the thesis establishes
 
-**Positioning within generative modelling.** Generative modelling is contrasted with discriminative modelling, and a taxonomy of maximum-likelihood generative models is developed, following Goodfellow (2016) and Foster (2023), according to how each family represents the density $p_{\boldsymbol{\theta}}(\mathbf{x})$: explicitly and tractably, explicitly but approximately, or implicitly. DDPMs are located within this taxonomy among the models that optimise an explicit approximation — a variational lower bound (Chapter 1).
+**Positioning within generative modelling.** Generative modelling is contrasted with discriminative modelling, and a taxonomy of maximum-likelihood generative models is developed, following Goodfellow (2016) and Foster (2023), according to how each family represents the density $`p_{\boldsymbol{\theta}}(\mathbf{x})`$: explicitly and tractably, explicitly but approximately, or implicitly. DDPMs are located within this taxonomy among the models that optimise an explicit approximation — a variational lower bound (Chapter 1).
 
-**Formalisation of the diffusion mechanism.** The forward and reverse processes are defined as coupled Markov chains with Gaussian transition kernels. The variance schedule, the closed-form marginal $q(\mathbf{x}_t \mid \mathbf{x}_0)$, the tractable posterior $q(\mathbf{x}_{t-1} \mid \mathbf{x}_t, \mathbf{x}_0)$, the training procedure and the ancestral sampling procedure are each treated in a dedicated section (Chapter 2).
+**Formalisation of the diffusion mechanism.** The forward and reverse processes are defined as coupled Markov chains with Gaussian transition kernels. The variance schedule, the closed-form marginal $`q(\mathbf{x}_t \mid \mathbf{x}_0)`$, the tractable posterior $`q(\mathbf{x}_{t-1} \mid \mathbf{x}_t, \mathbf{x}_0)`$, the training procedure and the ancestral sampling procedure are each treated in a dedicated section (Chapter 2).
 
 **Derivation of the training objective.** Starting from the intractable negative log-likelihood, the variational bound is obtained by specialising the VAE lower bound of Kingma and Welling to the diffusion setting, then decomposed term by term and finally reduced to the simplified noise-prediction loss actually minimised in practice. The full chain of equalities is reproduced, with the justification of each step stated (Appendix B).
 
@@ -53,7 +53,7 @@ The thesis is a theoretical study of **Denoising Diffusion Probabilistic Models*
 
 ## The mathematical framework
 
-Throughout, $\mathbf{x}_0 \sim q(\mathbf{x}_0)$ denotes a sample from the (unknown) data distribution, $\mathbf{x}_{1:T}$ the latent variables produced by successive corruption, and $\{\beta_t\}_{t=1}^{T} \subset (0,1)$ a fixed, monotonically increasing *variance schedule*. It is convenient to set
+Throughout, $`\mathbf{x}_0 \sim q(\mathbf{x}_0)`$ denotes a sample from the (unknown) data distribution, $`\mathbf{x}_{1:T}`$ the latent variables produced by successive corruption, and $`\{\beta_t\}_{t=1}^{T} \subset (0,1)`$ a fixed, monotonically increasing *variance schedule*. It is convenient to set
 
 ```math
 \alpha_t := 1 - \beta_t, \qquad \bar{\alpha}_t := \prod_{s=1}^{t} \alpha_s .
@@ -61,7 +61,7 @@ Throughout, $\mathbf{x}_0 \sim q(\mathbf{x}_0)$ denotes a sample from the (unkno
 
 ### The forward process — Markovian corruption
 
-The forward (or *diffusion*) process $q$ is a **fixed** Markov chain — it contains no learnable parameters — that gradually adds Gaussian noise to $\mathbf{x}_0$ over $T$ timesteps. By the Markov property the joint law of the trajectory factorises as
+The forward (or *diffusion*) process $`q`$ is a **fixed** Markov chain — it contains no learnable parameters — that gradually adds Gaussian noise to $`\mathbf{x}_0`$ over $`T`$ timesteps. By the Markov property the joint law of the trajectory factorises as
 
 ```math
 q(\mathbf{x}_{1:T} \mid \mathbf{x}_0) := \prod_{t=1}^{T} q(\mathbf{x}_t \mid \mathbf{x}_{t-1}),
@@ -73,9 +73,9 @@ and each transition kernel is chosen Gaussian, which is what makes the whole con
 q(\mathbf{x}_t \mid \mathbf{x}_{t-1}) := \mathcal{N}\!\left(\mathbf{x}_t ; \sqrt{1-\beta_t}\,\mathbf{x}_{t-1},\ \beta_t \mathbf{I}\right).
 ```
 
-The scaling factor $\sqrt{1-\beta_t}$ is not incidental: it is precisely the choice that keeps the variance of the chain bounded, so that the marginals converge rather than diverge.
+The scaling factor $`\sqrt{1-\beta_t}`$ is not incidental: it is precisely the choice that keeps the variance of the chain bounded, so that the marginals converge rather than diverge.
 
-**Closed-form marginal.** Because a composition of Gaussian kernels of this form is again Gaussian, $\mathbf{x}_t$ can be sampled *directly* from $\mathbf{x}_0$, without iterating through the intermediate states:
+**Closed-form marginal.** Because a composition of Gaussian kernels of this form is again Gaussian, $`\mathbf{x}_t`$ can be sampled *directly* from $`\mathbf{x}_0`$, without iterating through the intermediate states:
 
 ```math
 q(\mathbf{x}_t \mid \mathbf{x}_0) = \mathcal{N}\!\left(\mathbf{x}_t ; \sqrt{\bar{\alpha}_t}\,\mathbf{x}_0,\ (1-\bar{\alpha}_t)\mathbf{I}\right),
@@ -87,13 +87,13 @@ equivalently, via the reparameterisation trick,
 \mathbf{x}_t = \sqrt{\bar{\alpha}_t}\,\mathbf{x}_0 + \sqrt{1-\bar{\alpha}_t}\,\boldsymbol{\epsilon}, \qquad \boldsymbol{\epsilon} \sim \mathcal{N}(\mathbf{0}, \mathbf{I}).
 ```
 
-This identity is what makes training feasible at all: a single timestep $t$ may be sampled uniformly and its loss evaluated in constant time.
+This identity is what makes training feasible at all: a single timestep $`t`$ may be sampled uniformly and its loss evaluated in constant time.
 
-**Limiting behaviour.** Since $\alpha_s \in (0,1)$ for every $s$, the product $\bar{\alpha}_t$ is strictly decreasing; provided the schedule is such that $\bar{\alpha}_T \to 0$, the marginal $q(\mathbf{x}_T \mid \mathbf{x}_0)$ converges to $\mathcal{N}(\mathbf{0}, \mathbf{I})$ irrespective of $\mathbf{x}_0$. All structure in the datum is destroyed, and the terminal distribution is isotropic Gaussian noise — a distribution that is trivial to sample from. This is the entire point of running the chain forward.
+**Limiting behaviour.** Since $`\alpha_s \in (0,1)`$ for every $`s`$, the product $`\bar{\alpha}_t`$ is strictly decreasing; provided the schedule is such that $`\bar{\alpha}_T \to 0`$, the marginal $`q(\mathbf{x}_T \mid \mathbf{x}_0)`$ converges to $`\mathcal{N}(\mathbf{0}, \mathbf{I})`$ irrespective of $`\mathbf{x}_0`$. All structure in the datum is destroyed, and the terminal distribution is isotropic Gaussian noise — a distribution that is trivial to sample from. This is the entire point of running the chain forward.
 
 ### The reverse process — learned Gaussian denoising
 
-Generation requires traversing the chain in the opposite direction. The true reverse conditional $q(\mathbf{x}_{t-1} \mid \mathbf{x}_t)$ is intractable, since it depends on the unknown $q(\mathbf{x}_0)$ through Bayes' rule. It is therefore approximated by a **learned** Markov chain $p_{\boldsymbol{\theta}}$ with Gaussian transitions:
+Generation requires traversing the chain in the opposite direction. The true reverse conditional $`q(\mathbf{x}_{t-1} \mid \mathbf{x}_t)`$ is intractable, since it depends on the unknown $`q(\mathbf{x}_0)`$ through Bayes' rule. It is therefore approximated by a **learned** Markov chain $`p_{\boldsymbol{\theta}}`$ with Gaussian transitions:
 
 ```math
 \begin{aligned}
@@ -102,9 +102,9 @@ p_{\boldsymbol{\theta}}(\mathbf{x}_{t-1} \mid \mathbf{x}_t) &:= \mathcal{N}\!\le
 \end{aligned}
 ```
 
-The Gaussian form is not an arbitrary modelling convenience. When the $\beta_t$ are small, the true reverse conditional is itself approximately Gaussian, so the family is well matched to the target. Ho et al. further fix the covariance to $\boldsymbol{\Sigma}_{\boldsymbol{\theta}}(\mathbf{x}_t,t) = \sigma_t^2 \mathbf{I}$ with $\sigma_t^2$ untrained, leaving only the mean to be learned.
+The Gaussian form is not an arbitrary modelling convenience. When the $`\beta_t`$ are small, the true reverse conditional is itself approximately Gaussian, so the family is well matched to the target. Ho et al. further fix the covariance to $`\boldsymbol{\Sigma}_{\boldsymbol{\theta}}(\mathbf{x}_t,t) = \sigma_t^2 \mathbf{I}`$ with $`\sigma_t^2`$ untrained, leaving only the mean to be learned.
 
-**The tractable posterior.** Although $q(\mathbf{x}_{t-1} \mid \mathbf{x}_t)$ is intractable, conditioning additionally on $\mathbf{x}_0$ yields a Gaussian available in closed form,
+**The tractable posterior.** Although $`q(\mathbf{x}_{t-1} \mid \mathbf{x}_t)`$ is intractable, conditioning additionally on $`\mathbf{x}_0`$ yields a Gaussian available in closed form,
 
 ```math
 q(\mathbf{x}_{t-1} \mid \mathbf{x}_t, \mathbf{x}_0) = \mathcal{N}\!\left(\mathbf{x}_{t-1} ; \tilde{\boldsymbol{\mu}}_t(\mathbf{x}_t, \mathbf{x}_0),\ \tilde{\beta}_t \mathbf{I}\right),
@@ -120,25 +120,25 @@ This is the object that makes the variational bound computable: it supplies a Ga
 
 ### The training objective — from the ELBO to the simplified loss
 
-The likelihood $p_{\boldsymbol{\theta}}(\mathbf{x}_0) = \int p_{\boldsymbol{\theta}}(\mathbf{x}_{0:T})\,\mathrm{d}\mathbf{x}_{1:T}$ is intractable, so the negative log-likelihood is bounded above by a variational quantity. Regarding $\mathbf{x}_0$ as observed and $\mathbf{x}_{1:T}$ as latent, the VAE bound of Kingma and Welling specialises to
+The likelihood $`p_{\boldsymbol{\theta}}(\mathbf{x}_0) = \int p_{\boldsymbol{\theta}}(\mathbf{x}_{0:T})\,\mathrm{d}\mathbf{x}_{1:T}`$ is intractable, so the negative log-likelihood is bounded above by a variational quantity. Regarding $`\mathbf{x}_0`$ as observed and $`\mathbf{x}_{1:T}`$ as latent, the VAE bound of Kingma and Welling specialises to
 
 ```math
 -\log p_{\boldsymbol{\theta}}(\mathbf{x}_0) \ \leq\ \mathbb{E}_{q}\!\left[-\log \frac{p_{\boldsymbol{\theta}}(\mathbf{x}_{0:T})}{q(\mathbf{x}_{1:T}\mid\mathbf{x}_0)}\right] \ =:\ L_{\mathrm{vlb}} .
 ```
 
-Appendix B reproduces this derivation in full, and then decomposes $L_{\mathrm{vlb}}$ into per-timestep terms, each of which is a Kullback–Leibler divergence between two Gaussians and therefore admits a closed form:
+Appendix B reproduces this derivation in full, and then decomposes $`L_{\mathrm{vlb}}`$ into per-timestep terms, each of which is a Kullback–Leibler divergence between two Gaussians and therefore admits a closed form:
 
 ```math
 L_{\mathrm{vlb}} = \underbrace{D_{\mathrm{KL}}\!\left(q(\mathbf{x}_T\mid\mathbf{x}_0)\,\|\,p(\mathbf{x}_T)\right)}_{L_T} + \sum_{t>1} \underbrace{D_{\mathrm{KL}}\!\left(q(\mathbf{x}_{t-1}\mid\mathbf{x}_t,\mathbf{x}_0)\,\|\,p_{\boldsymbol{\theta}}(\mathbf{x}_{t-1}\mid\mathbf{x}_t)\right)}_{L_{t-1}} \underbrace{-\ \log p_{\boldsymbol{\theta}}(\mathbf{x}_0\mid\mathbf{x}_1)}_{L_0} .
 ```
 
-The term $L_T$ carries no learnable parameters and is discarded. Each $L_{t-1}$ reduces to a weighted squared error between $\tilde{\boldsymbol{\mu}}_t$ and $\boldsymbol{\mu}_{\boldsymbol{\theta}}$; reparameterising $\boldsymbol{\mu}_{\boldsymbol{\theta}}$ so that the network predicts the noise $\boldsymbol{\epsilon}$ rather than the mean, and discarding the resulting timestep-dependent weights, yields the objective minimised in practice:
+The term $`L_T`$ carries no learnable parameters and is discarded. Each $`L_{t-1}`$ reduces to a weighted squared error between $`\tilde{\boldsymbol{\mu}}_t`$ and $`\boldsymbol{\mu}_{\boldsymbol{\theta}}`$; reparameterising $`\boldsymbol{\mu}_{\boldsymbol{\theta}}`$ so that the network predicts the noise $`\boldsymbol{\epsilon}`$ rather than the mean, and discarding the resulting timestep-dependent weights, yields the objective minimised in practice:
 
 ```math
 L_{\mathrm{simple}}(\boldsymbol{\theta}) := \mathbb{E}_{\mathbf{x}_0,\ \boldsymbol{\epsilon},\ t}\left[\left\lVert \boldsymbol{\epsilon} - \boldsymbol{\epsilon}_{\boldsymbol{\theta}}\!\left(\sqrt{\bar{\alpha}_t}\,\mathbf{x}_0 + \sqrt{1-\bar{\alpha}_t}\,\boldsymbol{\epsilon},\ t\right)\right\rVert^2\right],
 ```
 
-with $\boldsymbol{\epsilon} \sim \mathcal{N}(\mathbf{0},\mathbf{I})$ and $t \sim \mathcal{U}\{1,\dots,T\}$. Note that the dropped weighting means $L_{\mathrm{simple}}$ is *not* the variational bound itself, but a reweighting of it — one that empirically improves sample quality.
+with $`\boldsymbol{\epsilon} \sim \mathcal{N}(\mathbf{0},\mathbf{I})`$ and $`t \sim \mathcal{U}\{1,\dots,T\}`$. Note that the dropped weighting means $`L_{\mathrm{simple}}`$ is *not* the variational bound itself, but a reweighting of it — one that empirically improves sample quality.
 
 The generative problem has thus been reduced to a supervised regression: predicting, from a noisy image and a timestep, the noise that produced it. This is exactly the form of denoising score matching, a correspondence made explicit by Ho et al.
 
