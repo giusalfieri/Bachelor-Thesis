@@ -59,10 +59,7 @@ Throughout, $\mathbf{x}_0 \sim q(\mathbf{x}_0)$ denotes a sample from the (unkno
 \alpha_t := 1 - \beta_t, \qquad \bar{\alpha}_t := \prod_{s=1}^{t} \alpha_s .
 ```
 
-<details>
-<summary><b>The forward process — Markovian corruption</b></summary>
-
-<br>
+### The forward process — Markovian corruption
 
 The forward (or *diffusion*) process $q$ is a **fixed** Markov chain — it contains no learnable parameters — that gradually adds Gaussian noise to $\mathbf{x}_0$ over $T$ timesteps. By the Markov property the joint law of the trajectory factorises as
 
@@ -94,21 +91,15 @@ This identity is what makes training feasible at all: a single timestep $t$ may 
 
 **Limiting behaviour.** Since $\alpha_s \in (0,1)$ for every $s$, the product $\bar{\alpha}_t$ is strictly decreasing; provided the schedule is such that $\bar{\alpha}_T \to 0$, the marginal $q(\mathbf{x}_T \mid \mathbf{x}_0)$ converges to $\mathcal{N}(\mathbf{0}, \mathbf{I})$ irrespective of $\mathbf{x}_0$. All structure in the datum is destroyed, and the terminal distribution is isotropic Gaussian noise — a distribution that is trivial to sample from. This is the entire point of running the chain forward.
 
-</details>
-
-<details>
-<summary><b>The reverse process — learned Gaussian denoising</b></summary>
-
-<br>
+### The reverse process — learned Gaussian denoising
 
 Generation requires traversing the chain in the opposite direction. The true reverse conditional $q(\mathbf{x}_{t-1} \mid \mathbf{x}_t)$ is intractable, since it depends on the unknown $q(\mathbf{x}_0)$ through Bayes' rule. It is therefore approximated by a **learned** Markov chain $p_{\boldsymbol{\theta}}$ with Gaussian transitions:
 
 ```math
-p_{\boldsymbol{\theta}}(\mathbf{x}_{0:T}) := p(\mathbf{x}_T) \prod_{t=1}^{T} p_{\boldsymbol{\theta}}(\mathbf{x}_{t-1} \mid \mathbf{x}_t), \qquad p(\mathbf{x}_T) = \mathcal{N}(\mathbf{0}, \mathbf{I}),
-```
-
-```math
-p_{\boldsymbol{\theta}}(\mathbf{x}_{t-1} \mid \mathbf{x}_t) := \mathcal{N}\!\left(\mathbf{x}_{t-1} ; \boldsymbol{\mu}_{\boldsymbol{\theta}}(\mathbf{x}_t, t),\ \boldsymbol{\Sigma}_{\boldsymbol{\theta}}(\mathbf{x}_t, t)\right).
+\begin{aligned}
+p_{\boldsymbol{\theta}}(\mathbf{x}_{0:T}) &:= p(\mathbf{x}_T) \prod_{t=1}^{T} p_{\boldsymbol{\theta}}(\mathbf{x}_{t-1} \mid \mathbf{x}_t), \qquad p(\mathbf{x}_T) = \mathcal{N}(\mathbf{0}, \mathbf{I}), \\[4pt]
+p_{\boldsymbol{\theta}}(\mathbf{x}_{t-1} \mid \mathbf{x}_t) &:= \mathcal{N}\!\left(\mathbf{x}_{t-1} ; \boldsymbol{\mu}_{\boldsymbol{\theta}}(\mathbf{x}_t, t),\ \boldsymbol{\Sigma}_{\boldsymbol{\theta}}(\mathbf{x}_t, t)\right).
+\end{aligned}
 ```
 
 The Gaussian form is not an arbitrary modelling convenience. When the $\beta_t$ are small, the true reverse conditional is itself approximately Gaussian, so the family is well matched to the target. Ho et al. further fix the covariance to $\boldsymbol{\Sigma}_{\boldsymbol{\theta}}(\mathbf{x}_t,t) = \sigma_t^2 \mathbf{I}$ with $\sigma_t^2$ untrained, leaving only the mean to be learned.
@@ -119,18 +110,15 @@ The Gaussian form is not an arbitrary modelling convenience. When the $\beta_t$ 
 q(\mathbf{x}_{t-1} \mid \mathbf{x}_t, \mathbf{x}_0) = \mathcal{N}\!\left(\mathbf{x}_{t-1} ; \tilde{\boldsymbol{\mu}}_t(\mathbf{x}_t, \mathbf{x}_0),\ \tilde{\beta}_t \mathbf{I}\right),
 ```
 
+where
+
 ```math
 \tilde{\boldsymbol{\mu}}_t(\mathbf{x}_t, \mathbf{x}_0) = \frac{\sqrt{\bar{\alpha}_{t-1}}\,\beta_t}{1-\bar{\alpha}_t}\,\mathbf{x}_0 + \frac{\sqrt{\alpha_t}\,(1-\bar{\alpha}_{t-1})}{1-\bar{\alpha}_t}\,\mathbf{x}_t, \qquad \tilde{\beta}_t = \frac{1-\bar{\alpha}_{t-1}}{1-\bar{\alpha}_t}\,\beta_t .
 ```
 
 This is the object that makes the variational bound computable: it supplies a Gaussian *target* against which each learned transition can be compared in closed form, rather than by Monte Carlo estimation.
 
-</details>
-
-<details>
-<summary><b>The training objective — from the ELBO to the simplified loss</b></summary>
-
-<br>
+### The training objective — from the ELBO to the simplified loss
 
 The likelihood $p_{\boldsymbol{\theta}}(\mathbf{x}_0) = \int p_{\boldsymbol{\theta}}(\mathbf{x}_{0:T})\,\mathrm{d}\mathbf{x}_{1:T}$ is intractable, so the negative log-likelihood is bounded above by a variational quantity. Regarding $\mathbf{x}_0$ as observed and $\mathbf{x}_{1:T}$ as latent, the VAE bound of Kingma and Welling specialises to
 
@@ -153,8 +141,6 @@ L_{\mathrm{simple}}(\boldsymbol{\theta}) := \mathbb{E}_{\mathbf{x}_0,\ \boldsymb
 with $\boldsymbol{\epsilon} \sim \mathcal{N}(\mathbf{0},\mathbf{I})$ and $t \sim \mathcal{U}\{1,\dots,T\}$. Note that the dropped weighting means $L_{\mathrm{simple}}$ is *not* the variational bound itself, but a reweighting of it — one that empirically improves sample quality.
 
 The generative problem has thus been reduced to a supervised regression: predicting, from a noisy image and a timestep, the noise that produced it. This is exactly the form of denoising score matching, a correspondence made explicit by Ho et al.
-
-</details>
 
 ---
 
