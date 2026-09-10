@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="docs/logo.png" alt="Logo: a visualisation of the forward diffusion process" width="70%">
+  <img src="docs/logo.png" alt="Logo: a visualisation of the forward diffusion process" width="50%">
 
   <p><i>Logo generated with a DDPM-based diffusion model</i></p>
 
