@@ -27,7 +27,7 @@
 
 This repository contains the LaTeX sources and the compiled PDF of my Bachelor's thesis, *Generatori di immagini da prompt testuali: stato dell'arte* (**Text-to-Image Generators: State of the Art**), supervised by Prof. Alessandro Bria.
 
-The thesis studies **Denoising Diffusion Probabilistic Models** (DDPMs), following Ho, Jain and Abbeel (2020): how gradual corruption can be reversed to generate images, and how this construction leads to a trainable objective. Appendices supply the derivation and mathematical background. Stable Diffusion, Imagen and DALL·E 2 provide the text-to-image context; the framework below describes unconditional DDPMs.
+The thesis studies **Denoising Diffusion Probabilistic Models** (DDPMs), following Ho, Jain and Abbeel (2020): how gradual corruption can be reversed to generate images, and how this construction leads to a trainable objective. The appendices develop the mathematical prerequisites and the loss derivation, providing the background needed to follow the DDPM formulation. Stable Diffusion, Imagen and DALL·E 2 provide the text-to-image context; the framework below describes unconditional DDPMs.
 
 > [!NOTE]
 > **The thesis is written in Italian.** Read [`main.pdf`](main.pdf) for the full dissertation. This English overview presents the framework developed in Chapter 2 and Appendix B.
@@ -41,7 +41,7 @@ The thesis studies **Denoising Diffusion Probabilistic Models** (DDPMs), followi
 
 **Positioning within generative modelling.** Chapter 1 distinguishes generative from discriminative modelling and classifies models by their representation of $`p_{\boldsymbol{\theta}}(\mathbf{x})`$, following Goodfellow (2016) and Foster (2023). DDPMs define an explicit latent-variable model with a generally intractable marginal likelihood, addressed through variational inference.
 
-**Formalisation of the diffusion mechanism.** Chapter 2 defines the forward and reverse chains, their Gaussian kernels and variance schedule. The marginal $`q(\mathbf{x}_t \mid \mathbf{x}_0)`$ enables direct noising; the posterior $`q(\mathbf{x}_{t-1} \mid \mathbf{x}_t, \mathbf{x}_0)`$ supports the variational objective. Training and ancestral sampling complete the account.
+**Formalisation of the diffusion mechanism.** Chapter 2 defines the forward and reverse chains, their Gaussian kernels and variance schedule, then develops training and ancestral sampling. The marginal $`q(\mathbf{x}_t \mid \mathbf{x}_0)`$ enables direct noising, while the posterior $`q(\mathbf{x}_{t-1} \mid \mathbf{x}_t, \mathbf{x}_0)`$ supports the variational objective.
 
 **Derivation of the training objective.** Appendix B applies the VAE framework of Kingma and Welling to derive and decompose the variational bound, then develops the simplified noise-prediction loss. The final reweighting is a modelling choice, not an algebraic identity.
 
@@ -87,9 +87,9 @@ equivalently, via the reparameterisation trick,
 \mathbf{x}_t = \sqrt{\bar{\alpha}_t}\,\mathbf{x}_0 + \sqrt{1-\bar{\alpha}_t}\,\boldsymbol{\epsilon}, \qquad \boldsymbol{\epsilon} \sim \mathcal{N}(\mathbf{0}, \mathbf{I}).
 ```
 
-Training samples a timestep $`t`$ uniformly and constructs its noisy image directly. Precomputed schedule coefficients eliminate the preceding transitions, leaving image operations and a network evaluation.
+With precomputed schedule coefficients, training samples a timestep $`t`$ uniformly, constructs its noisy image directly, and evaluates the loss at a cost independent of the number of diffusion steps, for a fixed image size and network architecture.
 
-**Limiting behaviour.** Because $`\alpha_s \in (0,1)`$ for every $`s`$, $`\bar{\alpha}_t`$ decreases strictly. If $`\bar{\alpha}_T \to 0`$ as the chain length increases, $`q(\mathbf{x}_T \mid \mathbf{x}_0)`$ converges to $`\mathcal{N}(\mathbf{0}, \mathbf{I})`$ for each fixed $`\mathbf{x}_0`$. At finite length, this Gaussian is an approximation with a small residual signal.
+**Limiting behaviour.** Because $`\alpha_s \in (0,1)`$ for every $`s`$, $`\bar{\alpha}_t`$ decreases strictly. If $`\bar{\alpha}_T \to 0`$ as $`T \to \infty`$, $`q(\mathbf{x}_T \mid \mathbf{x}_0)`$ converges to $`\mathcal{N}(\mathbf{0}, \mathbf{I})`$ for each fixed $`\mathbf{x}_0`$. At finite length, the schedule is chosen to leave a small residual signal, making this Gaussian a useful approximation.
 
 ### The reverse process: learned Gaussian denoising
 
@@ -102,7 +102,7 @@ p_{\boldsymbol{\theta}}(\mathbf{x}_{t-1} \mid \mathbf{x}_t) &:= \mathcal{N}\!\le
 \end{aligned}
 ```
 
-Under suitable regularity conditions, small $`\beta_t`$ justify a local Gaussian approximation. Ho et al. fix $`\boldsymbol{\Sigma}_{\boldsymbol{\theta}}(\mathbf{x}_t,t) = \sigma_t^2 \mathbf{I}`$ with prescribed $`\sigma_t^2`$, learning only the mean. Sampling starts from the Gaussian prior and applies the reverse transitions successively.
+The Gaussian reverse transitions are motivated by the small-step limit of the diffusion process, as $`\beta_t`$ tends to zero. Ho et al. fix $`\boldsymbol{\Sigma}_{\boldsymbol{\theta}}(\mathbf{x}_t,t) = \sigma_t^2 \mathbf{I}`$ with prescribed $`\sigma_t^2`$, so the network learns the means used to sample successive reverse transitions from an initial draw of Gaussian noise.
 
 **The tractable posterior.** Although $`q(\mathbf{x}_{t-1} \mid \mathbf{x}_t)`$ is generally intractable, conditioning on the training sample $`\mathbf{x}_0`$ gives a closed-form Gaussian for timesteps greater than one:
 
@@ -126,10 +126,10 @@ The likelihood $`p_{\boldsymbol{\theta}}(\mathbf{x}_0) = \int p_{\boldsymbol{\th
 -\log p_{\boldsymbol{\theta}}(\mathbf{x}_0) \ \leq\ \mathbb{E}_{q}\!\left[-\log \frac{p_{\boldsymbol{\theta}}(\mathbf{x}_{0:T})}{q(\mathbf{x}_{1:T}\mid\mathbf{x}_0)}\right] \ =:\ L_{\mathrm{vlb}} .
 ```
 
-Appendix B decomposes $`L_{\mathrm{vlb}}`$ into prior matching, intermediate Gaussian KL divergences, and a reconstruction negative log-likelihood. Below, expectation over the forward trajectory conditional on the observed sample is implicit on the right; the sum ends at the terminal timestep:
+Appendix B decomposes $`L_{\mathrm{vlb}}`$ into prior matching, intermediate Gaussian KL divergences, and a reconstruction negative log-likelihood. Below, expectation over the forward trajectory conditional on the observed sample is implicit on the right:
 
 ```math
-L_{\mathrm{vlb}} = \underbrace{D_{\mathrm{KL}}\!\left(q(\mathbf{x}_T\mid\mathbf{x}_0)\,\|\,p(\mathbf{x}_T)\right)}_{L_T} + \sum_{t>1} \underbrace{D_{\mathrm{KL}}\!\left(q(\mathbf{x}_{t-1}\mid\mathbf{x}_t,\mathbf{x}_0)\,\|\,p_{\boldsymbol{\theta}}(\mathbf{x}_{t-1}\mid\mathbf{x}_t)\right)}_{L_{t-1}} \underbrace{-\ \log p_{\boldsymbol{\theta}}(\mathbf{x}_0\mid\mathbf{x}_1)}_{L_0} .
+L_{\mathrm{vlb}} = \underbrace{D_{\mathrm{KL}}\!\left(q(\mathbf{x}_T\mid\mathbf{x}_0)\,\|\,p(\mathbf{x}_T)\right)}_{L_T} + \sum_{t=2}^{T} \underbrace{D_{\mathrm{KL}}\!\left(q(\mathbf{x}_{t-1}\mid\mathbf{x}_t,\mathbf{x}_0)\,\|\,p_{\boldsymbol{\theta}}(\mathbf{x}_{t-1}\mid\mathbf{x}_t)\right)}_{L_{t-1}} \underbrace{-\ \log p_{\boldsymbol{\theta}}(\mathbf{x}_0\mid\mathbf{x}_1)}_{L_0} .
 ```
 
 The parameter-independent $`L_T`$ can be omitted during optimisation. With fixed variances, each $`L_{t-1}`$ is a weighted squared error between $`\tilde{\boldsymbol{\mu}}_t`$ and $`\boldsymbol{\mu}_{\boldsymbol{\theta}}`$, up to parameter-independent terms. Expressing $`\boldsymbol{\mu}_{\boldsymbol{\theta}}`$ through predicted noise $`\boldsymbol{\epsilon}`$ and dropping timestep weights gives the simplified criterion, applied across all timesteps:
@@ -140,7 +140,7 @@ L_{\mathrm{simple}}(\boldsymbol{\theta}) := \mathbb{E}_{\mathbf{x}_0,\ \boldsymb
 
 with $`\boldsymbol{\epsilon} \sim \mathcal{N}(\mathbf{0},\mathbf{I})`$ and $`t \sim \mathcal{U}\{1,\dots,T\}`$ sampled independently of each other and the data. The expectation includes the data distribution; $`L_{\mathrm{simple}}`$ is a surrogate, not the original variational bound.
 
-The network learns to predict the noise added to a training image, without manual labels. Its predictions determine the reverse transition means. Ho et al. connect this objective to denoising score matching.
+By predicting the noise added to a training image, the network learns the reverse transition means without manual labels. Ho et al. connect this noise-prediction objective to denoising score matching.
 
 ---
 
